@@ -12,7 +12,7 @@ default:
     - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
       value: cumulative
     - name: OTEL_RESOURCE_ATTRIBUTES
-      value: 'service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo,service.version={{ .Chart.AppVersion }}'
+value: 'service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo,service.version={{ .Chart.AppVersion }}'
   # Allows overriding and additions to .Values.default.env
   envOverrides: []
   #  - name: OTEL_K8S_NODE_NAME
@@ -23,7 +23,7 @@ default:
     # The service's name will be applied to the end of this value.
     tag: ""
     pullPolicy: IfNotPresent
-    pullSecrets: []
+pullSecrets: []
   # Default # of replicas for all components
   replicas: 1
   # default revisionHistoryLimit for all components (number of old ReplicaSets to retain)
@@ -39,7 +39,7 @@ default:
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+# Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
@@ -53,7 +53,7 @@ components:
   #   useDefault:
   ## Use default environment variables
   #     env: true
-  ## Override Image repository and Tag. Tag will use appVersion as default.
+## Override Image repository and Tag. Tag will use appVersion as default.
   ## Component's name will be applied to end of this value.
   #   imageOverride: {}
   ## Optional service definitions to apply
@@ -63,7 +63,7 @@ components:
   ## Service Port to use to expose this component. Default is nil
   #     port: 8080
   ## Service Node Port to use to expose this component on a NodePort service. Default is nil
-  #     nodePort: 30080
+#     nodePort: 30080
   ## Service Annotations to add to this component
   #     annotations: {}
   ## Additional service ports to use to expose this component
@@ -73,7 +73,7 @@ components:
   ## Environment variables to add to the component's pod
   #   env:
   ## Environment variables that upsert (append + merge) into the `env` specification for this component.
-  ## A variable named OTEL_RESOURCE_ATTRIBUTES_EXTRA will have its value appended to the OTEL_RESOURCE_ATTRIBUTES value.
+## A variable named OTEL_RESOURCE_ATTRIBUTES_EXTRA will have its value appended to the OTEL_RESOURCE_ATTRIBUTES value.
   #   envOverrides:
   ## Pod Scheduling rules for nodeSelector, affinity, or tolerations.
   #   schedulingRules:
@@ -84,7 +84,7 @@ components:
   #   podAnnotations: {}
   ## Resources for this component
   #   resources: {}
-  ## Container security context for setting user ID (UID), group ID (GID) and other security policies
+## Container security context for setting user ID (UID), group ID (GID) and other security policies
   #   securityContext:
   ## Ingresses rules to add for the to the component
   # ingress:
@@ -96,7 +96,7 @@ components:
   #   ingressClassName: nginx
   ## Hosts definitions for the Ingress rule
   #   hosts:
-  #     - host: demo.example.com
+#     - host: demo.example.com
   ## Each host can have multiple paths/routes
   #       paths:
   #         - path: /
@@ -109,7 +109,7 @@ components:
   #         - demo.example.com
   ## Additional ingresses - only created if ingress.enabled is true
   ## Useful for when differently annotated ingress services are required
-  ## Each additional ingress needs key "name" set to something unique
+## Each additional ingress needs key "name" set to something unique
   #   additionalIngresses: []
   #     - name: extra-demo-ingress
   #       ingressClassName: nginx
@@ -124,13 +124,13 @@ components:
   #         - secretName: demo-tls
   #           hosts:
   #             - demo.example.com
-  ## Command to use in the container spec, in case you don't want to go with the default command from the image.
+## Command to use in the container spec, in case you don't want to go with the default command from the image.
   #   command: []
   ## Configuration to for this component; will create a Volume, and Mount backed by an optionally created ConfigMap.
   ## The name, mountPath are required, and one of existingConfigMap or data is required.
   ## If an existing ConfigMap is not provided, the contents under data will be used for the created ConfigMap.
   #   mountedConfigMaps: []
-  #     - name: my-config
+#     - name: my-config
   #       mountPath: /etc/config
   #       subPath:
   #       existingConfigMap: my-configmap
@@ -144,7 +144,7 @@ components:
   #     - name: <init-container-name>
   #       image: <init-container-image>
   #       command: [list of commands for the init container to run]
-  # # Replicas for the component
+# # Replicas for the component
   #  replicas: 1
   # # Number of old ReplicaSets to retain
   #  revisionHistoryLimit: 10
@@ -152,7 +152,7 @@ components:
   # # This will be applied at pod level, can be applied globally for all pods: .Values.default.podSecurityContext
   # # Or it can be applied to a specific component: .Values.components.<component-name>.podSecurityContext
   #    podSecurityContext:
-  #      runAsGroup: 65534
+#      runAsGroup: 65534
   #      runAsNonRoot: true
   #      runAsUser: 65534
 
@@ -171,7 +171,7 @@ components:
     initContainers:
       - name: wait-for-kafka
         image: busybox:latest
-        command: ["sh", "-c", "until nc -z -v -w30 kafka 9092; do echo waiting for kafka; sleep 2; done;"]
+command: ["sh", "-c", "until nc -z -v -w30 kafka 9092; do echo waiting for kafka; sleep 2; done;"]
 
   ad:
     enabled: true
@@ -191,7 +191,7 @@ components:
       - name: OTEL_LOGS_EXPORTER
         value: otlp
     resources:
-      limits:
+limits:
         memory: 300Mi
 
   cart:
@@ -213,7 +213,7 @@ components:
         value: "8013"
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://$(OTEL_COLLECTOR_NAME):4317
-    resources:
+resources:
       limits:
         memory: 160Mi
     initContainers:
@@ -233,7 +233,7 @@ components:
       - name: CART_ADDR
         value: cart:8080
       - name: CURRENCY_ADDR
-        value: currency:8080
+value: currency:8080
       - name: EMAIL_ADDR
         value: http://email:8080
       - name: PAYMENT_ADDR
@@ -241,15 +241,14 @@ components:
       - name: PRODUCT_CATALOG_ADDR
         value: product-catalog:8080
       - name: SHIPPING_ADDR
-        value: shipping:8080
+        value: http://shipping:8080
       - name: KAFKA_ADDR
         value: kafka:9092
       - name: FLAGD_HOST
         value: flagd
       - name: FLAGD_PORT
         value: "8013"
-      - name: OTEL_EXPORTER_OTLP_ENDPOINT
-        value: http://$(OTEL_COLLECTOR_NAME):4317
+      - name: OTEL_EXPORTER_OTLP_ENDPOINTvalue: http://$(OTEL_COLLECTOR_NAME):4317
     resources:
       limits:
         memory: 20Mi
@@ -268,7 +267,7 @@ components:
       - name: CURRENCY_PORT
         value: "8080"
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
-        value: http://$(OTEL_COLLECTOR_NAME):4317
+value: http://$(OTEL_COLLECTOR_NAME):4317
       - name: VERSION
         value: "{{ .Chart.AppVersion }}"
     resources:
@@ -290,7 +289,7 @@ components:
         value: http://$(OTEL_COLLECTOR_NAME):4318/v1/traces
     resources:
       limits:
-        memory: 100Mi
+memory: 100Mi
 
   fraud-detection:
     enabled: true
@@ -311,7 +310,7 @@ components:
     initContainers:
       - name: wait-for-kafka
         image: busybox:latest
-        command: ["sh", "-c", "until nc -z -v -w30 kafka 9092; do echo waiting for kafka; sleep 2; done;"]
+command: ["sh", "-c", "until nc -z -v -w30 kafka 9092; do echo waiting for kafka; sleep 2; done;"]
 
   frontend:
     enabled: true
@@ -331,13 +330,13 @@ components:
       - name: CHECKOUT_ADDR
         value: checkout:8080
       - name: CURRENCY_ADDR
-        value: currency:8080
+value: currency:8080
       - name: PRODUCT_CATALOG_ADDR
         value: product-catalog:8080
       - name: RECOMMENDATION_ADDR
         value: recommendation:8080
       - name: SHIPPING_ADDR
-        value: shipping:8080
+        value: http://shipping:8080
       - name: FLAGD_HOST
         value: flagd
       - name: FLAGD_PORT
@@ -345,8 +344,7 @@ components:
       - name: OTEL_COLLECTOR_HOST
         value: $(OTEL_COLLECTOR_NAME)
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
-        value: http://$(OTEL_COLLECTOR_NAME):4317
-      - name: WEB_OTEL_SERVICE_NAME
+        value: http://$(OTEL_COLLECTOR_NAME):4317- name: WEB_OTEL_SERVICE_NAME
         value: frontend-web
       - name: PUBLIC_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
         value: http://localhost:8080/otlp-http/v1/traces             # This expects users to use `kubectl port-forward ...`
@@ -364,7 +362,7 @@ components:
       env: true
     service:
       port: 8080
-    env:
+env:
       - name: ENVOY_PORT
         value: "8080"
       - name: FLAGD_HOST
@@ -384,7 +382,7 @@ components:
       - name: GRAFANA_PORT
         value: "80"
       - name: IMAGE_PROVIDER_HOST
-        value: image-provider
+value: image-provider
       - name: IMAGE_PROVIDER_PORT
         value: "8081"
       - name: JAEGER_HOST
@@ -401,7 +399,7 @@ components:
         value: "4317"
       - name: OTEL_COLLECTOR_PORT_HTTP
         value: "4318"
-    resources:
+resources:
       limits:
         memory: 65Mi
     securityContext:
@@ -425,8 +423,7 @@ components:
     resources:
       limits:
         memory: 50Mi
-
-  load-generator:
+load-generator:
     enabled: true
     useDefault:
       env: true
@@ -447,7 +444,7 @@ components:
         value: "false"
       - name: LOCUST_AUTOSTART
         value: "true"
-      - name: LOCUST_BROWSER_TRAFFIC_ENABLED
+- name: LOCUST_BROWSER_TRAFFIC_ENABLED
         value: "true"
       - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
         value: python
@@ -468,7 +465,7 @@ components:
     service:
       port: 8080
     env:
-      - name: PAYMENT_PORT
+- name: PAYMENT_PORT
         value: "8080"
       - name: FLAGD_HOST
         value: flagd
@@ -491,7 +488,7 @@ components:
     service:
       port: 8080
     env:
-      - name: PRODUCT_CATALOG_PORT
+- name: PRODUCT_CATALOG_PORT
         value: "8080"
       - name: PRODUCT_CATALOG_RELOAD_INTERVAL
         value: "10"
@@ -507,7 +504,7 @@ components:
         existingConfigMap: product-catalog-products
     resources:
       limits:
-        memory: 20Mi
+memory: 20Mi
 
   quote:
     enabled: true
@@ -531,7 +528,7 @@ components:
       runAsNonRoot: true
 
   recommendation:
-    enabled: true
+enabled: true
     useDefault:
       env: true
     service:
@@ -550,7 +547,7 @@ components:
       - name: FLAGD_PORT
         value: "8013"
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
-        value: http://$(OTEL_COLLECTOR_NAME):4317
+value: http://$(OTEL_COLLECTOR_NAME):4317
     resources:
       limits:
         memory: 500Mi            # This is high to enable supporting the recommendationCache feature flag use case
@@ -568,7 +565,7 @@ components:
         value: http://quote:8080
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://$(OTEL_COLLECTOR_NAME):4317
-    resources:
+resources:
       limits:
         memory: 20Mi
 
@@ -593,7 +590,7 @@ components:
     resources:
       limits:
         memory: 75Mi
-    command:
+command:
       - "/flagd-build"
       - "start"
       - "--port"
@@ -613,7 +610,7 @@ components:
         service:
           port: 4000
         env:
-          - name: FLAGD_METRICS_EXPORTER
+- name: FLAGD_METRICS_EXPORTER
             value: otel
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
             value: http://$(OTEL_COLLECTOR_NAME):4318
@@ -626,7 +623,7 @@ components:
     initContainers:
       - name: init-config
         image: busybox
-        command: ["sh", "-c", "cp /config-ro/demo.flagd.json /config-rw/demo.flagd.json && cat /config-rw/demo.flagd.json"]
+command: ["sh", "-c", "cp /config-ro/demo.flagd.json /config-rw/demo.flagd.json && cat /config-rw/demo.flagd.json"]
         volumeMounts:
           - mountPath: /config-ro
             name: config-ro
@@ -645,7 +642,7 @@ components:
     ports:
       - name: plaintext
         value: 9092
-      - name: controller
+- name: controller
         value: 9093
     env:
       - name: KAFKA_ADVERTISED_LISTENERS
@@ -665,7 +662,7 @@ components:
   valkey-cart:
     enabled: true
     useDefault:
-      env: true
+env: true
     imageOverride:
       repository: "valkey/valkey"
       tag: "7.2-alpine"
@@ -688,7 +685,7 @@ opentelemetry-collector:
   fullnameOverride: otel-collector
   mode: deployment
   presets:
-    kubernetesAttributes:
+kubernetesAttributes:
       enabled: true
   resources:
     limits:
@@ -707,7 +704,7 @@ opentelemetry-collector:
         protocols:
           http:
             # Since this collector needs to receive data from the web, enable cors for all origins
-            # `allowed_origins` can be refined for your deployment domain
+# `allowed_origins` can be refined for your deployment domain
             cors:
               allowed_origins:
                 - "http://*"
@@ -722,7 +719,7 @@ opentelemetry-collector:
     exporters:
       ## Create an exporter to Jaeger using the standard `otlp` export format
       otlp:
-        endpoint: jaeger-collector:4317
+endpoint: jaeger-collector:4317
         tls:
           insecure: true
       # Create an exporter to Prometheus (metrics)
@@ -739,7 +736,7 @@ opentelemetry-collector:
 
     processors:
       # This processor is used to help limit high cardinality on next.js span names
-      # When this PR is merged (and released) we can remove this transform processor
+# When this PR is merged (and released) we can remove this transform processor
       # https://github.com/vercel/next.js/pull/64852
       transform:
         error_mode: ignore
@@ -748,7 +745,7 @@ opentelemetry-collector:
             statements:
               # could be removed when https://github.com/vercel/next.js/pull/64852 is fixed upstream
               - replace_pattern(name, "\\?.*", "")
-              - replace_match(name, "GET /api/products/*", "GET /api/products/{productId}")
+- replace_match(name, "GET /api/products/*", "GET /api/products/{productId}")
       resource:
         attributes:
         - key: service.instance.id
@@ -764,7 +761,7 @@ opentelemetry-collector:
           processors: [memory_limiter, resource, transform, batch]
           exporters: [otlp, debug, spanmetrics]
         metrics:
-          receivers: [httpcheck/frontend-proxy, redis, otlp, spanmetrics]
+receivers: [httpcheck/frontend-proxy, redis, otlp, spanmetrics]
           processors: [memory_limiter, resource, batch]
           exporters: [otlphttp/prometheus, debug]
         logs:
@@ -778,7 +775,7 @@ opentelemetry-collector:
                 interval: 10000
                 timeout: 5000
                 exporter:
-                  otlp:
+otlp:
                     protocol: grpc
                     endpoint: otel-collector:4318
 
@@ -796,7 +793,7 @@ jaeger:
       - "--prometheus.query.normalize-calls=true"
       - "--prometheus.query.normalize-duration=true"
     extraEnv:
-      - name: METRICS_STORAGE_TYPE
+- name: METRICS_STORAGE_TYPE
         value: prometheus
       - name: COLLECTOR_OTLP_GRPC_HOST_PORT
         value: 0.0.0.0:4317
@@ -821,7 +818,7 @@ prometheus:
   configmapReload:
     prometheus:
       enabled: false
-  kube-state-metrics:
+kube-state-metrics:
     enabled: false
   prometheus-node-exporter:
     enabled: false
@@ -841,7 +838,7 @@ prometheus:
     prometheus.yml:
       otlp:
         keep_identifying_resource_attributes: true
-        # Recommended attributes to be promoted to labels.
+# Recommended attributes to be promoted to labels.
         promote_resource_attributes:
           - service.instance.id
           - service.name
@@ -856,7 +853,7 @@ prometheus:
           - k8s.daemonset.name
           - k8s.deployment.name
           - k8s.job.name
-          - k8s.namespace.name
+- k8s.namespace.name
           - k8s.pod.name
           - k8s.replicaset.name
           - k8s.statefulset.name
@@ -881,7 +878,7 @@ grafana:
       org_name: Main Org.
       org_role: Admin
     server:
-      root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana"
+root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana"
       serve_from_sub_path: true
   adminPassword: admin
   plugins:
@@ -898,7 +895,7 @@ grafana:
           isDefault: true
           jsonData:
             exemplarTraceIdDestinations:
-              - datasourceUid: webstore-traces
+- datasourceUid: webstore-traces
                 name: trace_id
 
               - url: http://localhost:8080/jaeger/ui/trace/$${__value.raw}
@@ -914,7 +911,7 @@ grafana:
 
         - name: OpenSearch
           uid: webstore-logs
-          type: grafana-opensearch-datasource
+type: grafana-opensearch-datasource
           url: http://opensearch:9200/
           access: proxy
           editable: true
@@ -930,7 +927,7 @@ grafana:
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
-      providers:
+providers:
         - name: 'default'
           orgId: 1
           folder: ''
@@ -951,7 +948,7 @@ opensearch:
   clusterName: demo-cluster
   nodeGroup: otel-demo
   singleNode: true
-  opensearchJavaOpts: "-Xms300m -Xmx300m"
+opensearchJavaOpts: "-Xms300m -Xmx300m"
   persistence:
     enabled: false
   extraEnvs:
