@@ -231,17 +231,16 @@ components:
       - name: CHECKOUT_PORT
         value: "8080"
       - name: CART_ADDR
-        value: cart:8080
+        value: http://cart:8080
       - name: CURRENCY_ADDR
-        value: currency:8080
+        value: http://currency:8080
       - name: EMAIL_ADDR
         value: http://email:8080
       - name: PAYMENT_ADDR
-        value: payment:8080
-      - name: PRODUCT_CATALOG_ADDR
-        value: product-catalog:8080
+        value: http://payment:8080      - name: PRODUCT_CATALOG_ADDR
+        value: http://product-catalog:8080
       - name: SHIPPING_ADDR
-        value: shipping:8080
+        value: http://shipping:8080
       - name: KAFKA_ADDR
         value: kafka:9092
       - name: FLAGD_HOST
@@ -252,8 +251,7 @@ components:
         value: http://$(OTEL_COLLECTOR_NAME):4317
     resources:
       limits:
-        memory: 20Mi
-    initContainers:
+        memory: 20Mi    initContainers:
       - name: wait-for-kafka
         image: busybox:latest
         command: ["sh", "-c", "until nc -z -v -w30 kafka 9092; do echo waiting for kafka; sleep 2; done;"]
@@ -325,25 +323,23 @@ components:
       - name: FRONTEND_ADDR
         value: :8080
       - name: AD_ADDR
-        value: ad:8080
+        value: http://ad:8080
       - name: CART_ADDR
-        value: cart:8080
-      - name: CHECKOUT_ADDR
-        value: checkout:8080
+        value: http://cart:8080      - name: CHECKOUT_ADDR
+        value: http://checkout:8080
       - name: CURRENCY_ADDR
-        value: currency:8080
+        value: http://currency:8080
       - name: PRODUCT_CATALOG_ADDR
-        value: product-catalog:8080
+        value: http://product-catalog:8080
       - name: RECOMMENDATION_ADDR
-        value: recommendation:8080
+        value: http://recommendation:8080
       - name: SHIPPING_ADDR
-        value: shipping:8080
+        value: http://shipping:8080
       - name: FLAGD_HOST
         value: flagd
       - name: FLAGD_PORT
         value: "8013"
-      - name: OTEL_COLLECTOR_HOST
-        value: $(OTEL_COLLECTOR_NAME)
+      - name: OTEL_COLLECTOR_HOST        value: $(OTEL_COLLECTOR_NAME)
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://$(OTEL_COLLECTOR_NAME):4317
       - name: WEB_OTEL_SERVICE_NAME
@@ -540,7 +536,7 @@ components:
       - name: RECOMMENDATION_PORT
         value: "8080"
       - name: PRODUCT_CATALOG_ADDR
-        value: product-catalog:8080
+        value: http://product-catalog:8080
       - name: OTEL_PYTHON_LOG_CORRELATION
         value: "true"
       - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
@@ -552,8 +548,7 @@ components:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://$(OTEL_COLLECTOR_NAME):4317
     resources:
-      limits:
-        memory: 500Mi            # This is high to enable supporting the recommendationCache feature flag use case
+      limits:        memory: 500Mi            # This is high to enable supporting the recommendationCache feature flag use case
 
   shipping:
     enabled: true
